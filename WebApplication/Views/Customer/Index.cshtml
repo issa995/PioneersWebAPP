@@ -1,0 +1,113 @@
+﻿@using WebApplication.Models;
+@model List<Information>
+@{
+    ViewBag.Title = "Index";
+}
+<form style="background-color:antiquewhite;padding:2%;border-radius:15px;width:100%;border:1px solid black;margin-top:2%;">
+    <div class="container" >
+
+        @Html.ActionLink("New", "AddAndEdit", new { @ID = 0 }, new { @class = "btn btn-warning col-md-2" })
+        <br />
+        <hr />
+
+        <table id="table" class="table table-striped  table-bordered dt-responsive nowrap ">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Customer Name</th>
+                    <th>Country</th>
+                    <th>City</th>
+                    <th>Address</th>
+                    <th>TaxNumber</th>
+                    <th>Active</th>
+                    <th>Actions</th>
+
+                </tr>
+            </thead>
+        </table>
+    </div>
+   
+    @section scripts{
+        <script>
+            $(document).ready(function () {
+                $("#table").DataTable({
+                    "processing": true,
+                    "serverSide": true,
+                    "filter": true,
+                    "orderMulti": false,
+                    "pageLength": 5,
+
+                    "ajax": {
+                        "url": "/Customer/LoadData",
+                        "type": "POST",
+                        "datatype": "json"
+                    },
+
+                    "columnDefs":
+                    [{
+                        "targets": [0],
+                        "visible": false,
+                        "searchable": false
+                    },
+                    {
+                        "targets": [1],
+                        "searchable": true,
+                        "orderable": true
+                    },
+                    {
+                        "targets": [2],
+                        "searchable": false,
+                        "orderable": true
+                    },
+                    {
+                        "targets": [3],
+                        "searchable": true,
+                        "orderable": true
+                    },
+                    {
+                        "targets": [4],
+                        "searchable": true,
+                        "orderable": true
+                    },
+                    {
+                        "targets": [5],
+                        "searchable": true,
+                        "orderable": true
+                    },
+                     {
+                         "targets": [6],
+                         "searchable": true,
+                         "orderable": true
+                     },
+                    {
+                        "targets": [7],
+                        "searchable": false,
+                        "orderable": false
+                    }
+                    ],
+
+                    "columns": [
+                          { "data": "ID", "name": "ID", "autoWidth": true },
+                          { "data": "CustomerName", "name": "CustomerName", "autoWidth": true },
+                           { "data": "Country", "name": "Country", "autoWidth": true },
+                            { "data": "City", "name": "City", "autoWidth": true },
+                             { "data": "Address", "name": "Address", "autoWidth": true },
+                              { "data": "TaxNumber", "name": "TaxNumber", "autoWidth": true },
+                               { "data": "Active", "name": "Active", "autoWidth": true },
+
+
+                          {
+                              "render": function (data, type, row) {
+                                  return '<a class="btn btn-info" href="/Customer/AddAndEdit?ID=' + row.ID + '">Edit</a>' + ' '
+                                    + '<a class="btn btn-danger" href="/Customer/Delete?Id=' + row.ID + '">Delete</a>';
+                              }
+                          }
+
+                    ]
+
+
+                });
+            })
+
+        </script>
+    }

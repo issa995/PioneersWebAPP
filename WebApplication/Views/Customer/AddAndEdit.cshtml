@@ -1,0 +1,95 @@
+﻿@using WebApplication.Models;
+@using WebApplication.Enums;
+@model Information
+@{
+    ViewBag.Title = "AddAndEdit";
+}
+<center>
+   @if (Model == null)
+    {
+    <h2><b><i>Add Customer Page</i></b></h2>
+    }
+    else
+    {
+    <h2><b><i>Edit Customer Page</i></b></h2>
+
+    }
+
+    <div class="container" style="background-color:antiquewhite;padding:2%;border-radius:15px;width:70%;border:1px solid black;">
+        @using (Html.BeginForm("Save", "Customer", FormMethod.Post, new { @enctype = "multipart/form-data" }))
+        {
+            @Html.HiddenFor(m => m.ID)
+            @*@Html.ValidationSummary(null, new { @class = "text-danger" })*@
+            <div class="form-group">
+                @Html.LabelFor(m => m.CustomerName)
+                @Html.TextBoxFor(m => m.CustomerName, null, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.CustomerName,null, new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Country)
+                @Html.DropDownListFor(m => m.Country, new SelectList(Enum.GetValues(typeof(CountryList.list))), "Choose Your Country", new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Country, null, new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.City)
+                @Html.TextBoxFor(m => m.City, null, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.City, null, new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Address)
+                @Html.TextBoxFor(m => m.Address, null, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Address, null, new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.TaxNumber)
+                @Html.TextBoxFor(m => m.TaxNumber, null, new { @class = "form-control" })
+            </div>
+
+            @*<div class="form-group">
+                @if (Model.Logo != null)
+                {
+                    <img id="Image" src="@Url.Content(Model.Logo)" width="350" height="150" style="border:1px solid black;border-radius:5px" />
+                }
+                else
+                {
+                    <img id="Image" width="350" height="150" style="border:1px solid black;border-radius:5px" />
+
+                }
+                <input type="file" id="file" title="Select Image" name="file" onchange="ShowImage(this)" />
+            </div>*@
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.Active)
+                <br />
+                @Html.CheckBoxFor(m => m.Active)
+                @Html.ValidationMessageFor(m => m.Active, null, new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                <button class="btn btn-success col-md-5 col-md-offset-1" type="submit">Save</button>
+                @Html.ActionLink("Cancel", "Index", null, new { @class = "btn btn-danger col-md-4 col-md-5 ",@style= "margin-left:4px" })
+
+            </div>
+        }
+  </div>
+    </center>
+
+
+
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+           
+        });
+        function ShowImage(input) {
+            if (input.files && input.files[0]) {
+                var filerdr = new FileReader();
+                filerdr.onload = function (e) {
+                    $('#Image').attr('src', e.target.result);
+                }
+                filerdr.readAsDataURL(input.files[0]);
+            }
+        }
+
+    </script>
+}
